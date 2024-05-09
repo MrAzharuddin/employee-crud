@@ -1,0 +1,62 @@
+
+
+
+
+# Curl commands for REST Server resource Employee
+
+# Post
+```
+curl -X POST -H "Content-Type: application/json" \
+-d '{"Position": "sample string","Salary": 1,"Name": "sample string"}' \
+http://localhost:8000/v1/employees
+```
+
+
+
+# Put
+```
+curl -X PUT -H "Content-Type: application/json" \
+-d '{"Id": 123,"Name": "sample string","Position": "sample string","Salary": 1}' \
+http://localhost:8000/v1/employees/123
+```
+# Put
+### wrong id passed in param
+```
+curl -X PUT -H "Content-Type: application/json" \
+-d '{"Id": 123,"Name": "sample string","Position": "sample string","Salary": 1}' \
+http://localhost:8000/v1/employees/1234
+```
+
+
+# Get  (retrieve specific Employee)
+```
+curl -X GET -H "Content-Type: application/json" \
+http://localhost:8000/v1/employees/123
+```
+
+
+# Delete
+```
+curl -X DELETE -H "Content-Type: application/json" \
+http://localhost:8000/v1/employees/123
+```
+
+
+
+# Run mysql server in docker on local
+```
+docker run --detach --name=mysql --env="MYSQL_ROOT_PASSWORD=password" --publish 3306:3306 mysql/mysql-server:latest
+```
+# when mysql throws error about server connection, fire below commands
+#
+```
+error occurred: Error 1130: Host '172.17.0.1' is not allowed to connect to this MySQL server
+```
+# More details here - https://stackoverflow.com/a/19101356/3751443
+```
+docker exec -ti mysql bash
+mysql -u root -p ### you will be prompted for password
+SELECT host FROM mysql.user WHERE User = 'root';
+CREATE USER 'root'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+```
